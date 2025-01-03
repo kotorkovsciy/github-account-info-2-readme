@@ -26,8 +26,8 @@ jobs:
         uses: kotorkovsciy/github-account-info-2-readme@v0.0.1
         with:
           GH_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}  # Your personal GitHub token
-          username: kotorkovsciy
-          readme: README.md
+          github_username: kotorkovsciy
+          target_file: README.md
 ```
 
 ### Example Workflow with Repository Token
@@ -52,6 +52,6 @@ jobs:
         uses: kotorkovsciy/github-account-info-2-readme@v0.0.1
         with:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Repository token
-          username: kotorkovsciy
-          readme: README.md
+          github_username: kotorkovsciy
+          target_file: README.md
 ```
