@@ -1,6 +1,9 @@
 name: 'github-account-info-2-readme'
-
 description: GitHub Action that retrieves user information, such as public data and repositories, and inserts it into a README file.
+author: kotorkovsciy
+branding:
+  icon: user
+  color: black
 
 inputs:
   github_username:
