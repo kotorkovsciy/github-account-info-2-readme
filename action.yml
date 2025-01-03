@@ -1,8 +1,6 @@
 name: 'github-account-info-2-readme'
 
-description: |
-  GitHub Action to fetch account info (public data, repos) 
-  and insert it into a specified README file for project documentation.
+description: GitHub Action that retrieves user information, such as public data and repositories, and inserts it into a README file.
 
 inputs:
   github_username:
