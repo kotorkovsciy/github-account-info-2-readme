@@ -1,0 +1,56 @@
+name: 'github-account-info-2-readme'
+
+description: |
+  GitHub Action to fetch account info (public data, repos) 
+  and insert it into a specified README file for project documentation.
+
+inputs:
+  github_username:
+    description: 'GitHub username to fetch the latest repository'
+    required: true
+  target_file:
+    description: 'The README file to update'
+    required: true
+  GH_TOKEN:
+    description: 'GitHub access token with Repo scope'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Get latest project
+      shell: bash
+      id: fetch_event
+      run: |
+        username="${{ inputs.github_username }}"
+        response=$(curl -s https://api.github.com/users/$username/events/public)
+        latest_repo_name=$(echo "$response" | jq -r '.[0].repo.name')
+        latest_repo_url=https://github.com/$latest_repo_name
+        latest_project="Latest Project: [$latest_repo_name]($latest_repo_url)"
+        echo "latest_project=$latest_project" >> $GITHUB_ENV
+
+    - name: Update latest project in README
+      shell: bash
+      run: |
+        file="${{ inputs.target_file }}"
+        TAG="LAST_REPO"
+        
+        sed -i "/<!--START_$TAG-->/, /<!--END_$TAG-->/ {
+            /<!--START_$TAG-->/! { 
+            /<!--END_$TAG-->/! s|.*|${{ env.latest_project }}| 
+          }
+        }" "$file"
+
+    - name: Commit and push
+      shell: bash
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add ${{ inputs.target_file }}
+        git commit -m "Update README"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ inputs.GH_TOKEN }}
