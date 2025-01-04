@@ -36,6 +36,13 @@ runs:
 
         echo "latest_project=$latest_project" >> $GITHUB_ENV
 
+    - name: Debug workspace
+      shell: bash
+      run: |
+        echo "Workspace: ${{ github.workspace }}"
+        ls -la ${{ github.workspace }}
+        ls -la ${{ github.workspace }}/scripts
+
     - name: Ensure script is executable
       shell: bash
       run: chmod +x ${{ github.workspace }}/scripts/replace_between_tags.sh
