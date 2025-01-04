@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh -l
 
 file="$1"
 new_content="$2"

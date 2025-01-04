@@ -23,7 +23,7 @@ runs:
       uses: actions/checkout@v4
 
     - name: Get latest project
-      shell: bash
+      shell: sh
       id: fetch_event
       env:
         GH_TOKEN: ${{ inputs.GH_TOKEN }}
@@ -38,12 +38,12 @@ runs:
 
     - name: Set GitHub Path
       run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
-      shell: bash
+      shell: sh
       env:
         GITHUB_ACTION_PATH: ${{ github.action_path }}
 
     - name: Update latest project in README
-      shell: bash
+      shell: sh
       run: |
         scripts/replace_between_tags.sh \
           "${{ inputs.target_file }}" \
@@ -51,7 +51,7 @@ runs:
           "LAST_REPO"
 
     - name: Commit and push
-      shell: bash
+      shell: sh
       run: |
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
