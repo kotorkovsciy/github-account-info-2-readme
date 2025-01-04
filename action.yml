@@ -45,7 +45,7 @@ runs:
       shell: bash
       run: |
         ${{ github.action_path }}/scripts/replace_between_tags.sh \
-          "${{ github.action_path }}/${{ inputs.target_file }}" \
+          "${{ github.workspace }}/${{ inputs.target_file }}" \
           "${{ env.latest_project }}" \
           "LAST_REPO"
 
