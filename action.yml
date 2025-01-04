@@ -55,7 +55,7 @@ runs:
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
 
-        git add ${{ github.action_path }}/${{ inputs.target_file }}
+        git add ${{ github.workspace }}/${{ inputs.target_file }}
         
         if git diff --cached --quiet; then
           echo "No changes detected, skipping commit and push."
