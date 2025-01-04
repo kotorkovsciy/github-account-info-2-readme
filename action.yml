@@ -26,24 +26,21 @@ runs:
       shell: bash
       id: fetch_event
       run: |
-        username="${{ inputs.github_username }}"
-        response=$(curl -s https://api.github.com/users/$username/events/public)
+        response=$(gh api "/users/${{ inputs.github_username }}/events/public")
+
         latest_repo_name=$(echo "$response" | jq -r '.[0].repo.name')
         latest_repo_url=https://github.com/$latest_repo_name
         latest_project="Latest Project: [$latest_repo_name]($latest_repo_url)"
+
         echo "latest_project=$latest_project" >> $GITHUB_ENV
 
     - name: Update latest project in README
       shell: bash
       run: |
-        file="${{ inputs.target_file }}"
-        TAG="LAST_REPO"
-        
-        sed -i "/<!--START_$TAG-->/, /<!--END_$TAG-->/ {
-            /<!--START_$TAG-->/! { 
-            /<!--END_$TAG-->/! s|.*|${{ env.latest_project }}| 
-          }
-        }" "$file"
+        ./scripts/replace_between_tags.sh \
+          "${{ inputs.target_file }}" \
+          "${{ env.latest_project }}" \
+          "LAST_REPO"
 
     - name: Commit and push
       shell: bash
