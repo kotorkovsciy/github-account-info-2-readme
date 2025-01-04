@@ -25,6 +25,8 @@ runs:
     - name: Get latest project
       shell: bash
       id: fetch_event
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         response=$(gh api "/users/${{ inputs.github_username }}/events/public")
 
