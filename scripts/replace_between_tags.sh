@@ -4,6 +4,6 @@ TAG="$3"
 
 sed -i "/<!--START_$TAG-->/, /<!--END_$TAG-->/ {
     /<!--START_$TAG-->/! { 
-    /<!--END_$TAG-->/! s|.*|${{ env.latest_project }}| 
+    /<!--END_$TAG-->/! s|.*|$new_content| 
   }
 }" "$file"
