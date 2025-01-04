@@ -7,7 +7,7 @@ branding:
 
 inputs:
   github_username:
-    description: 'GitHub username to fetch the latest repository'
+    description: 'GitHub username'
     required: true
   target_file:
     description: 'The README file to update'
@@ -28,12 +28,10 @@ runs:
       env:
         GH_TOKEN: ${{ inputs.GH_TOKEN }}
       run: |
-        username=${{ inputs.github_username }}
-        response=$(gh api "/users/$username/events/public")
-
-        latest_repo_name=$(echo "$response" | jq -r '.[0].repo.name')
-        latest_repo_url=https://github.com/$latest_repo_name
-        latest_project="Latest Project: [$latest_repo_name]($latest_repo_url)"
+        latest_project=$(
+          ${{ github.action_path }}/scripts/get_latest_repo.sh \
+          "${{ inputs.github_username }}"
+        )
 
         echo "latest_project=$latest_project" >> $GITHUB_ENV
 
