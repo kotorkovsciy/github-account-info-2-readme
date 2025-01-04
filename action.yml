@@ -36,6 +36,10 @@ runs:
 
         echo "latest_project=$latest_project" >> $GITHUB_ENV
 
+    - name: Ensure script is executable
+      shell: bash
+      run: chmod +x ${{ github.workspace }}/scripts/replace_between_tags.sh
+
     - name: Update latest project in README
       shell: bash
       run: |
