@@ -37,17 +37,11 @@ runs:
 
         echo "latest_project=$latest_project" >> $GITHUB_ENV
 
-    - name: Set GitHub Path
-      run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
-      shell: bash
-      env:
-        GITHUB_ACTION_PATH: ${{ github.action_path }}
-
     - name: Update latest project in README
       shell: bash
       run: |
-        scripts/replace_between_tags.sh \
-          "${{ inputs.target_file }}" \
+        ${{ github.action_path }}/scripts/replace_between_tags.sh \
+          "${{ github.action_path }}/${{ inputs.target_file }}" \
           "${{ env.latest_project }}" \
           "LAST_REPO"
 
