@@ -43,6 +43,24 @@ runs:
           "${{ env.latest_project }}" \
           "LAST_REPO"
 
+    - name: Update repos list
+      shell: bash
+      run: |
+        repos=$(
+          ${{ github.action_path }}/scripts/get_all_repos.sh \
+          "${{ inputs.github_username }}"
+        )
+
+        table_repos=$(
+          ${{ github.action_path }}/scripts/generate_markdown_table.sh \
+          "$repos"
+        )
+
+        ${{ github.action_path }}/scripts/replace_between_tags.sh \
+          "${{ github.workspace }}/${{ inputs.target_file }}" \
+          "$table_repos" \
+          "TABLE_REPOS"
+
     - name: Commit and push
       shell: bash
       run: |
