@@ -45,26 +45,39 @@ runs:
       env:
         GH_TOKEN: ${{ inputs.GH_TOKEN }}
 
-    - name: Update repos list
+    - name: Get all repos (Step 1)
       shell: bash
       run: |
-        repos_file=$(mktemp)
-        ${{ github.action_path }}/scripts/get_all_repos.sh \
-          "${{ inputs.github_username }}" > "$repos_file"
-
-        table_repos=$(
-          ${{ github.action_path }}/scripts/generate_markdown_table.sh \
-          "$repos_file"
+        repos=$(
+          ${{ github.action_path }}/scripts/get_all_repos.sh \
+          "${{ inputs.github_username }}"
         )
 
-        ${{ github.action_path }}/scripts/replace_between_tags.sh \
-          "${{ github.workspace }}/${{ inputs.target_file }}" \
-          "$table_repos" \
-          "TABLE_REPOS"
-
-        rm "$repos_file"
+        echo "$repos" > repos.json
+        echo "Repos saved to repos.json"
       env:
         GH_TOKEN: ${{ inputs.GH_TOKEN }}
+
+    - name: Generate markdown table from repos (Step 2)
+      shell: bash
+      run: |
+        repos=$(cat repos.json)
+        table_repos=$(
+          ${{ github.action_path }}/scripts/generate_markdown_table.sh \
+          "$repos"
+        )
+
+        echo "$table_repos" > table_repos.md
+        echo "Markdown table generated and saved to table_repos.md"
+
+    - name: Update table in README (Step 3)
+      shell: bash
+      run: |
+        ${{ github.action_path }}/scripts/replace_between_tags.sh \
+          "${{ github.workspace }}/${{ inputs.target_file }}" \
+          "$(cat table_repos.md)" \
+          "TABLE_REPOS"
+        echo "Updated README with the repository table"
 
     - name: Commit and push
       shell: bash
