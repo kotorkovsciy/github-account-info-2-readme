@@ -14,7 +14,7 @@ for repo in $(echo "$repos" | jq -r '.[] | @base64'); do
   homepage=$(_jq '.html_url')
   stars=$(_jq '.stargazers_count')
   full_name=$(_jq '.full_name')
-  last_commit=[$name last commit]("https://img.shields.io/github/last-commit/$full_name?style=flat&label=last")
+  last_commit="[$name last commit](https://img.shields.io/github/last-commit/$full_name?style=flat&label=last)"
 
   echo "| $name | $homepage | $stars | $last_commit |"
 done
