@@ -6,10 +6,10 @@ tmp_file=$(mktemp)
 
 awk -v tag="$TAG" -v new_content="$new_content" '
   BEGIN { inside_tag = 0 }
-  /<!--START_/ { inside_tag = 1; print; next }
+  /<!--START_/ && $0 ~ "<!--START_" tag "-->" { inside_tag = 1; print; next }
   inside_tag {
-    if (/<!--END_/) {
-      print "<!--END_" tag "-->"
+    if ($0 ~ "<!--END_" tag "-->") {
+      print $0
       inside_tag = 0
     } else {
       print new_content
