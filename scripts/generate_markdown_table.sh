@@ -1,7 +1,9 @@
-repos="$1"
+repos_file="$1"
 
 echo "| Name | Homepage | Stars | Last Commit |"
 echo "|-----------------------|--------------------------|--------|-------------|"
+
+repos=$(cat "$repos_file")
 
 for repo in $(echo "$repos" | jq -r '.[] | @base64'); do
   _jq() {

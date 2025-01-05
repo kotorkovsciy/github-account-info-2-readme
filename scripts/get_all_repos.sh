@@ -19,4 +19,4 @@ while :; do
   page=$((page + 1))
 done
 
-echo "$repos" | jq -S '. | sort_by(.stargazers_count) | reverse'
+echo "$repos" | jq -S '. | sort_by(.stargazers_count) | reverse' > /tmp/repos.json

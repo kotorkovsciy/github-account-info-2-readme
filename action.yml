@@ -48,23 +48,15 @@ runs:
     - name: Get all repos (Step 1)
       shell: bash
       run: |
-        repos=$(
-          ${{ github.action_path }}/scripts/get_all_repos.sh \
-          "${{ inputs.github_username }}"
-        )
-
-        echo "$repos" > repos.json
-        echo "Repos saved to repos.json"
+        ${{ github.action_path }}/scripts/get_all_repos.sh "${{ inputs.github_username }}"
       env:
         GH_TOKEN: ${{ inputs.GH_TOKEN }}
 
     - name: Generate markdown table from repos (Step 2)
       shell: bash
       run: |
-        repos=$(cat repos.json)
         table_repos=$(
-          ${{ github.action_path }}/scripts/generate_markdown_table.sh \
-          "$repos"
+          ${{ github.action_path }}/scripts/generate_markdown_table.sh /tmp/repos.json
         )
 
         echo "$table_repos" > table_repos.md
