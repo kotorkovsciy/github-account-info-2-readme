@@ -60,6 +60,8 @@ runs:
           "${{ github.workspace }}/${{ inputs.target_file }}" \
           "$table_repos" \
           "TABLE_REPOS"
+      env:
+        GH_TOKEN: ${{ inputs.GH_TOKEN }}
 
     - name: Commit and push
       shell: bash
