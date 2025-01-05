@@ -48,20 +48,21 @@ runs:
     - name: Update repos list
       shell: bash
       run: |
-        repos=$(
-          ${{ github.action_path }}/scripts/get_all_repos.sh \
-          "${{ inputs.github_username }}"
-        )
+        repos_file=$(mktemp)
+        ${{ github.action_path }}/scripts/get_all_repos.sh \
+          "${{ inputs.github_username }}" > "$repos_file"
 
         table_repos=$(
           ${{ github.action_path }}/scripts/generate_markdown_table.sh \
-          "$repos"
+          "$repos_file"
         )
 
         ${{ github.action_path }}/scripts/replace_between_tags.sh \
           "${{ github.workspace }}/${{ inputs.target_file }}" \
           "$table_repos" \
           "TABLE_REPOS"
+
+        rm "$repos_file"
       env:
         GH_TOKEN: ${{ inputs.GH_TOKEN }}
 
