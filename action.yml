@@ -42,6 +42,8 @@ runs:
           "${{ github.workspace }}/${{ inputs.target_file }}" \
           "${{ env.latest_project }}" \
           "LAST_REPO"
+      env:
+        GH_TOKEN: ${{ inputs.GH_TOKEN }}
 
     - name: Update repos list
       shell: bash
