@@ -55,3 +55,18 @@ jobs:
           github_username: kotorkovsciy
           target_file: README.md
 ```
+
+## Tags in readme
+```md
+<!--START_LAST_REPO-->
+Latest Project: Your last repository will appear here.
+<!--END_LAST_REPO-->
+
+
+<!--START_TABLE_REPOS-->
+| Name | Homepage | Stars | Last Commit |
+|------|----------|-------|-------------|
+| Repo1 | https://github.com/user/repo1 | 100 | ![Last Commit](https://img.shields.io/github/last-commit/user/repo1?style=flat&label=last) |
+| Repo2 | https://github.com/user/repo2 | 150 | ![Last Commit](https://img.shields.io/github/last-commit/user/repo2?style=flat&label=last) |
+<!--END_TABLE_REPOS-->
+```
