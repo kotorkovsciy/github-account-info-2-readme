@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Insert GitHub Account Info into README
-        uses: kotorkovsciy/github-account-info-2-readme@v0.0.4
+        uses: kotorkovsciy/github-account-info-2-readme@v0.0.5
         with:
           GH_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}  # Your personal GitHub token
           github_username: kotorkovsciy
@@ -49,7 +49,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Insert GitHub Account Info into README
-        uses: kotorkovsciy/github-account-info-2-readme@v0.0.4
+        uses: kotorkovsciy/github-account-info-2-readme@v0.0.5
         with:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Repository token
           github_username: kotorkovsciy
