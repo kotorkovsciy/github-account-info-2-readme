@@ -1,7 +1,7 @@
 repos_file="$1"
 
-echo "| Name | Homepage | Stars | Last Commit |"
-echo "|-----------------------|--------------------------|--------|-------------|"
+echo "| Name | Homepage | Git | Stars | Last Commit |"
+echo "|-----------------------|--------------------------|----------------------------|--------|-------------|"
 
 repos=$(cat "$repos_file")
 
@@ -11,10 +11,16 @@ for repo in $(echo "$repos" | jq -r '.[] | @base64'); do
   }
 
   name=$(_jq '.name')
-  homepage="[\`#Homepage\`]($(_jq '.html_url'))"
+  homepage=$(_jq '.homepage')
+  if [ "$homepage" == "null" ]; then
+    homepage="❌"
+  else
+    homepage="[\`#Homepage\`]($homepage)"
+  fi
+  github_link="[\`#Git\`]($(_jq '.html_url'))"
   stars=$(_jq '.stargazers_count')
   full_name=$(_jq '.full_name')
   last_commit="![$name last commit](https://img.shields.io/github/last-commit/$full_name?style=flat&label=last)"
 
-  echo "| $name | $homepage | $stars | $last_commit |"
+  echo "| $name | $homepage | $github_link | $stars | $last_commit |"
 done
